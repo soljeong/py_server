@@ -1,0 +1,10 @@
+# 환경 설정
+py -3.11 -m venv .venv
+.\.venv\Scripts\activate
+pip install -r requirements.txt
+
+
+
+# python 실행
+cd src/main/java/com/webprojectv1/notalone/admin
+python -m uvicorn adminmain:app --reload

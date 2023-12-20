@@ -1,0 +1,7 @@
+mysql-connector-python
+pandas
+fastapi
+lightgbm
+uvicorn
+scikit-learn
+jinja2
