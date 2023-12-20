@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=1.0" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>대시보드 - Admin</title>
+        
+        <link href="{{ url_for('static', path='css/styles.css') }}" rel="stylesheet" />
+        <script src="{{ url_for('static', path='js/scripts.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{{ url_for('static', path='js/datatables-simple-demo.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    
+    <body class="sb-nav-fixed">
+        <!-- DataTables 라이브러리 추가 -->
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="/admin">관리자 페이지</a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input id="searchInput" name="searchInput" class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Core</div>
+                            <a class="nav-link" href="http://localhost:8080/">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Main Home
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Interface</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Layouts
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Pages
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                        Authentication
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="login.html">Login</a>
+                                            <a class="nav-link" href="register.html">Register</a>
+                                            <a class="nav-link" href="password.html">Forgot Password</a>
+                                        </nav>
+                                    </div>
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                        Error
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="401.html">401 Page</a>
+                                            <a class="nav-link" href="404.html">404 Page</a>
+                                            <a class="nav-link" href="500.html">500 Page</a>
+                                        </nav>
+                                    </div>
+                                </nav>
+                            </div>
+                            <div class="sb-sidenav-menu-heading">Addons</div>
+                            <a class="nav-link" href="charts.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Charts
+                            </a>
+                            <a class="nav-link" href="tables.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in:</div>
+                        admin
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">매출현황표</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active"></li>
+                        </ol>
+                    </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-area me-1"></i>
+                                        월 매출
+                                    </div>
+                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas>
+                                        <!-- Chart를 표시할 Canvas 엘리먼트 -->
+                                        <script>
+                                            // Fetch API를 사용하여 데이터 가져오기
+                                            fetch("/api/sales-data")
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    // 데이터 형식에 따라 차트 설정 업데이트
+                                                    let ctx = document.getElementById("myAreaChart").getContext("2d");
+                                        
+                                                    // 데이터를 1억으로 나누어 처리
+                                                    let processedData = data.map(entry => ({
+                                                        month: entry.month,
+                                                        total_sales: entry.total_sales / 1e8 // 1억으로 나누기
+                                                    }));
+                                        
+                                                    // 최근 12개월 데이터만 추출
+                                                    let last12Months = processedData.slice(-12);
+                                        
+                                                    // Labels를 1개월 단위로 설정
+                                                    let monthlyLabels = last12Months.map(entry => entry.month);
+                                        
+                                                    let myLineChart = new Chart(ctx, {
+                                                        type: 'line',
+                                                        data: {
+                                                            labels: monthlyLabels,
+                                                            datasets: [{
+                                                                label: "Total Sales (억)",
+                                                                lineTension: 0.3,
+                                                                backgroundColor: "rgba(2,117,216,0.2)",
+                                                                borderColor: "rgba(2,117,216,1)",
+                                                                pointRadius: 5,
+                                                                pointBackgroundColor: "rgba(2,117,216,1)",
+                                                                pointBorderColor: "rgba(255,255,255,0.8)",
+                                                                pointHoverRadius: 5,
+                                                                pointHoverBackgroundColor: "rgba(2,117,216,1)",
+                                                                pointHitRadius: 50,
+                                                                pointBorderWidth: 2,
+                                                                data: last12Months.map(entry => entry.total_sales),
+                                                            }],
+                                                        },
+                                                        options: {
+                                                            scales: {
+                                                                xAxes: [{
+                                                                    gridLines: {
+                                                                        display: false
+                                                                    },
+                                                                    ticks: {
+                                                                        maxTicksLimit: 12 // 최대 12개의 레이블만 표시
+                                                                    }
+                                                                }],
+                                                                yAxes: [{
+                                                                    ticks: {
+                                                                        min: 0,
+                                                                        max: 8, // 최대값을 40으로 변경
+                                                                        maxTicksLimit: 5,
+                                                                        callback: function (value, index, values) {
+                                                                            return value + '억'; // Y축 레이블에 '억' 추가
+                                                                        }
+                                                                    },
+                                                                    gridLines: {
+                                                                        color: "rgba(0, 0, 0, .125)",
+                                                                    }
+                                                                }],
+                                                            },
+                                                            legend: {
+                                                                display: false
+                                                            }
+                                                        }
+                                                    });
+                                                })
+                                                .catch(error => console.error('매출 데이터 가져오기 오류:', error));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        최근 5일 총 매출액
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                    <script>
+                                        // Set new default font family and font color to mimic Bootstrap's default styling
+                                        Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+                                        Chart.defaults.global.defaultFontColor = '#292b2c';
+                                    
+                                        // Bar Chart Example
+                                        let ctx = document.getElementById("myBarChart");
+                                    
+                                        // Fetch API를 사용하여 데이터 가져오기
+                                        fetch("/api/day5-data")
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                // 데이터 형식에 따라 차트 설정 업데이트
+                                    
+                                                // 데이터를 역순으로 배열
+                                                data.reverse();
+                                    
+                                                let myBarChart = new Chart(ctx, {
+                                                    type: 'bar',
+                                                    data: {
+                                                        labels: data.map(entry => entry.day),
+                                                        datasets: [{
+                                                            label: "Revenue",
+                                                            backgroundColor: "rgba(2,117,216,1)",
+                                                            borderColor: "rgba(2,117,216,1)",
+                                                            data: data.map(entry => entry.total_sales),
+                                                        }],
+                                                    },
+                                                    options: {
+                                                        scales: {
+                                                            xAxes: [{
+                                                                gridLines: {
+                                                                    display: false
+                                                                },
+                                                                ticks: {
+                                                                    maxTicksLimit: 5
+                                                                }
+                                                            }],
+                                                            yAxes: [{
+                                                                ticks: {
+                                                                    min: 0,
+                                                                    max: Math.ceil(Math.max(...data.map(entry => entry.total_sales)) / 25000000) * 25000000,
+                                                                    maxTicksLimit: 5,
+                                                                    callback: function (value, index, values) {
+                                                                        return value === 0 ? '0' : value / 10000000 + '천만원'; // 0이면 '0'으로 표시
+                                                                    }
+                                                                },
+                                                                gridLines: {
+                                                                    display: true
+                                                                }
+                                                            }],
+                                                        },
+                                                        legend: {
+                                                            display: false
+                                                        }
+                                                    }
+                                                });
+                                            })
+                                            .catch(error => console.error('5일 데이터 가져오기 오류:', error));
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                일일 현황
+                            </div>
+                            <div class="card-body">
+                                <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>제품명 (풀네임)</th>
+                                            <th>가격</th>
+                                            <th>재고</th>
+                                            <th>금일 판매량</th>
+                                            <th>판매 예측량</th>
+                                            <th>필요 주문량</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>제품명</th>
+                                            <th>가격</th>
+                                            <th>재고</th>
+                                            <th>금일 판매량</th>
+                                            <th>내일 판매 예측량</th>
+                                            <th>필요한 주문량</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody id="productTableBody">
+                                        <!-- Table body will be dynamically populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                            
+                        <script>
+                            const productTableBody = document.getElementById("productTableBody");
+                            fetch("/api/products")
+                                .then(response => {
+                                    response.json()
+                                    .then(data => {
+                                    productTableBody.innerHTML = "";
+                                    data.forEach(entry => {
+                                        let row = document.createElement("tr");
+                                        row.innerHTML = `
+                                            <td>${entry.product_name}</td>
+                                            <td>${entry.product_price}원</td>
+                                            <td>${entry.product_stock} EA</td>
+                                            <td>${entry.total_quantity} EA</td>
+                                            <td>${entry.daily_sales_prediction} EA</td>
+                                            <td>${entry.order_quantity} EA</td>
+                                        `;
+                                        productTableBody.appendChild(row);
+                                        });
+                                    })
+                                .catch(error => console.error('제품 데이터 가져오기 오류:', error));
+                                })
+                                
+                        </script>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+
+        <!-- 여기에 DataTables 초기화 스크립트를 추가하세요 -->
+        <script>
+            document.ready(function () {
+                // 테이블에 DataTables를 적용
+                $('#datatablesSimple').DataTable();
+            });
+        </script>
+    </body>
+</html>
